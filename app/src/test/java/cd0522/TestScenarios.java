@@ -13,13 +13,12 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;;
 
 public class TestScenarios {
-    public void testScenario(ToolCode toolCode, String dateTimeFormat,
+    public void testScenario(ToolCode toolCode, String date,
             int rentalDayCount, int discountPercent)
             throws DiscountOutOfBoundsException,
             RentalDayOutOfBoundsException {
         Checkout checkout = Checkout.builder().toolCode(toolCode)
-                .checkoutDate(
-                        LocalDate.parse(dateTimeFormat, dateFormat))
+                .checkoutDate(LocalDate.parse(date, dateFormat))
                 .rentalDayCount(rentalDayCount)
                 .discountPercent(discountPercent).build();
         System.out.println(checkout.generateRentalAgreement());

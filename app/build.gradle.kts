@@ -27,7 +27,7 @@ dependencies {
 
 application {
     // Define the main class for the application.
-    mainClass.set("cd0522.App")
+    mainClass.set("cd0522.Main")
 }
 
 tasks.named<Test>("test") {
