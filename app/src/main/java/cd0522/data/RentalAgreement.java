@@ -3,7 +3,7 @@ package cd0522.data;
 import java.time.LocalDate;
 
 import cd0522.enums.*;
-import static cd0522.util.RentalCalculator.dateFormat;
+import static cd0522.util.ApplicationConstants.dateFormat;
 import lombok.Builder;
 import lombok.Data;
 
@@ -35,7 +35,7 @@ public class RentalAgreement {
                 + "Charge days: %d\n" + "Prediscount charge: $%,.2f\n"
                 + "Discount percent: %d%%\n"
                 + "Discount amount: $%,.2f\n"
-                + "Final charge: $%,.2f\n", toolCode, toolType,
+                + "Final charge: $%,.2f", toolCode, toolType,
                 toolBrand, rentalDays,
                 checkoutDate.format(dateFormat),
                 dueDate.format(dateFormat), dailyRentalCharge,
