@@ -1,8 +1,9 @@
 package cd0522.data;
 
-import java.time.ZonedDateTime;
+import java.time.LocalDate;
 
 import cd0522.enums.*;
+import static cd0522.util.RentalCalculator.dateFormat;
 import lombok.Builder;
 import lombok.Data;
 
@@ -16,12 +17,40 @@ public class RentalAgreement {
     private ToolType toolType;
     private ToolBrand toolBrand;
     private int rentalDays;
-    private ZonedDateTime checkoutDate;
-    private ZonedDateTime dueDate;
+    private LocalDate checkoutDate;
+    private LocalDate dueDate;
     private double dailyRentalCharge;
     private int chargeDays;
-    private double preDiscountCharge;
-    private double discountPercent;
+    private double prediscountCharge;
+    private int discountPercent;
     private double discountAmount;
     private double finalCharge;
+
+    @Override
+    public String toString() {
+        return String.format("Tool code: %s\n" + "Tool type: %s\n"
+                + "Tool brand: %s\n" + "Rental days: %d\n"
+                + "Checkout date: %s\n" + "Due date: %s\n"
+                + "Daily rental charge: $%,.2f\n"
+                + "Charge days: %d\n" + "Prediscount charge: $%,.2f\n"
+                + "Discount percent: %d%%\n"
+                + "Discount amount: $%,.2f\n"
+                + "Final charge: $%,.2f\n", toolCode, toolType,
+                toolBrand, rentalDays,
+                checkoutDate.format(dateFormat),
+                dueDate.format(dateFormat), dailyRentalCharge,
+                chargeDays, prediscountCharge, discountPercent,
+                discountAmount, finalCharge);
+        // return String.format("Tool code: %s\n" + "Tool type: %s\n"
+        // + "Tool brand: %s\n" + "Rental days: %d\n"
+        // + "Checkout date: %s\n" + "Due date: %s\n"
+        // + "Daily rental charge: $%f\n" + "Charge days: %d\n"
+        // + "Prediscount charge: $%f\n"
+        // + "Discount percent: %d%\n" + "Discount amount: $%f\n"
+        // + "Final charge: $%f", toolCode.toString(),
+        // toolType.toString(), toolBrand.toString(), rentalDays,
+        // checkoutDate.toString(), dueDate.toString(),
+        // dailyRentalCharge, chargeDays, prediscountCharge,
+        // discountPercent, discountAmount, finalCharge);
+    }
 }
