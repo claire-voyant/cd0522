@@ -41,16 +41,5 @@ public class RentalAgreement {
                 dueDate.format(dateFormat), dailyRentalCharge,
                 chargeDays, prediscountCharge, discountPercent,
                 discountAmount, finalCharge);
-        // return String.format("Tool code: %s\n" + "Tool type: %s\n"
-        // + "Tool brand: %s\n" + "Rental days: %d\n"
-        // + "Checkout date: %s\n" + "Due date: %s\n"
-        // + "Daily rental charge: $%f\n" + "Charge days: %d\n"
-        // + "Prediscount charge: $%f\n"
-        // + "Discount percent: %d%\n" + "Discount amount: $%f\n"
-        // + "Final charge: $%f", toolCode.toString(),
-        // toolType.toString(), toolBrand.toString(), rentalDays,
-        // checkoutDate.toString(), dueDate.toString(),
-        // dailyRentalCharge, chargeDays, prediscountCharge,
-        // discountPercent, discountAmount, finalCharge);
     }
 }
