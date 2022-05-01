@@ -2,6 +2,9 @@ package cd0522.util;
 
 import java.time.format.DateTimeFormatter;
 
+/**
+ * A set of constants to be used across the application.
+ */
 public class ApplicationConstants {
     public final static DateTimeFormatter dateFormat = DateTimeFormatter
             .ofPattern("M/d/yy");
