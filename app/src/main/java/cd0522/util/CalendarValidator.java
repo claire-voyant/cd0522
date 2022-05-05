@@ -6,6 +6,9 @@ import java.time.Month;
 import java.time.MonthDay;
 import java.time.temporal.ChronoField;
 import java.time.temporal.TemporalAdjusters;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * A collection of functions and methods which encapsulate the
@@ -25,6 +28,37 @@ public class CalendarValidator {
 
     public static boolean isHoliday(LocalDate date) {
         return isIndependenceDay(date) || isLaborDay(date);
+    }
+
+    public static List<LocalDate> holidaysInRange(LocalDate date,
+            int dayRange) {
+        List<LocalDate> holidayList = new ArrayList<>();
+        LocalDate startDay = date.plusDays(1);
+        LocalDate endCheckDate = date.plusDays(dayRange + 1);
+        for (LocalDate dayInRange : startDay.datesUntil(endCheckDate)
+                .collect(Collectors.toList())) {
+            if (isLaborDay(dayInRange)) {
+                holidayList.add(dayInRange);
+            } else if (isIndependenceDay(dayInRange)) {
+                holidayList.add(
+                        whenIsIndependenceDayObserved(dayInRange));
+            }
+        }
+        return holidayList;
+    }
+
+    public static LocalDate whenIsIndependenceDayObserved(
+            LocalDate date) {
+        if (isIndependenceDay(date) && isWeekendDay(date)) {
+            if (date.getDayOfWeek() == DayOfWeek.SATURDAY) {
+                return date.minusDays(1);
+            } else {
+                return date.plusDays(1);
+            }
+        } else {
+            throw new IllegalArgumentException(String
+                    .format("%s is not Independence day!", date));
+        }
     }
 
     public static boolean isIndependenceDay(LocalDate date) {

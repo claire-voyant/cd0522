@@ -6,14 +6,12 @@ import java.util.Optional;
 import cd0522.data.RentalAgreement;
 import cd0522.data.RentalCharge;
 import cd0522.data.Tool;
-import cd0522.database.ToolDatabase;
-import cd0522.enums.ToolBrand;
 import cd0522.enums.ToolCode;
-import cd0522.enums.ToolType;
 import cd0522.util.ApplicationConstants;
 import cd0522.util.DataReference;
 import cd0522.util.DatabaseEntryNotFoundException;
 import cd0522.util.DiscountOutOfBoundsException;
+import cd0522.util.RentalCalculator;
 import cd0522.util.RentalDayOutOfBoundsException;
 import lombok.Builder;
 
@@ -45,20 +43,33 @@ public class Checkout {
             throws DiscountOutOfBoundsException,
             RentalDayOutOfBoundsException,
             DatabaseEntryNotFoundException {
-        // TODO finish building rental agreement
         checkErrorCases();
         Tool tool = DataReference.TOOL_DATABASE
                 .retrieveEntry(toolCode).get();
         RentalCharge rentCharge = DataReference.RENT_DATABASE
                 .retrieveEntry(tool.toolType()).get();
+        int chargeDays = RentalCalculator.calculateChargeDays(
+                checkoutDate, rentalDayCount, rentCharge);
+        double prediscountCharge = chargeDays
+                * rentCharge.dailyCharge();
+        double discountAmount = roundHalfUpToCents(
+                (1.0 / discountPercent) * prediscountCharge);
+        double finalCharge = roundHalfUpToCents(
+                prediscountCharge - discountAmount);
         return RentalAgreement.builder().toolCode(toolCode)
                 .toolType(tool.toolType()).toolBrand(tool.brand())
                 .rentalDays(rentalDayCount).checkoutDate(checkoutDate)
-                .dueDate(LocalDate.now())
+                .dueDate(checkoutDate.plusDays(rentalDayCount))
                 .dailyRentalCharge(rentCharge.dailyCharge())
-                .chargeDays(0).prediscountCharge(0.0)
-                .discountPercent(discountPercent).discountAmount(0.0)
-                .finalCharge(0.0).build();
+                .chargeDays(chargeDays)
+                .prediscountCharge(prediscountCharge)
+                .discountPercent(discountPercent)
+                .discountAmount(discountAmount)
+                .finalCharge(finalCharge).build();
+    }
+
+    private double roundHalfUpToCents(double value) {
+        return Math.round(value * 100.0) / 100.0;
     }
 
     private void checkErrorCases()
