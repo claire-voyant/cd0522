@@ -1,16 +1,15 @@
 package cd0522.database;
 
-import java.util.Map;
 import java.util.Set;
 
 import cd0522.data.RentalCharge;
 import cd0522.enums.ToolType;
 
-public final class RentDatabase extends Database<RentalCharge> {
-    public RentDatabase(Map<Integer, RentalCharge> database) {
-        super(database);
-    }
-
+/**
+ * Stores the rental data using a simplified database.
+ */
+public final class RentDatabase
+        extends Database<ToolType, RentalCharge> {
     @Override
     public Set<RentalCharge> getInitialValues() {
         return Set.of(

@@ -13,9 +13,8 @@ import cd0522.enums.ToolType;
  */
 public record RentalCharge(ToolType toolType, double dailyCharge,
         boolean weekDayCharge, boolean weekendCharge,
-        boolean holidayCharge) {
-    @Override
-    public int hashCode() {
-        return toolType.hashCode();
+        boolean holidayCharge) implements Indexable {
+    public int getIndex() {
+        return toolType.getIndex();
     }
 }

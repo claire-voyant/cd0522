@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 
 import cd0522.app.Checkout;
 import cd0522.enums.ToolCode;
+import cd0522.util.DatabaseEntryNotFoundException;
 import cd0522.util.DiscountOutOfBoundsException;
 import cd0522.util.RentalDayOutOfBoundsException;
 
@@ -16,7 +17,8 @@ public class TestScenarios {
     public void testScenario(ToolCode toolCode, String date,
             int rentalDayCount, int discountPercent)
             throws DiscountOutOfBoundsException,
-            RentalDayOutOfBoundsException {
+            RentalDayOutOfBoundsException,
+            DatabaseEntryNotFoundException {
         Checkout checkout = Checkout.builder().toolCode(toolCode)
                 .checkoutDate(LocalDate.parse(date, dateFormat))
                 .rentalDayCount(rentalDayCount)
@@ -25,18 +27,14 @@ public class TestScenarios {
     }
 
     @Test
-    public void firstTestScenario()
-            throws DiscountOutOfBoundsException,
-            RentalDayOutOfBoundsException {
+    public void firstTestScenario() {
         assertThrows(DiscountOutOfBoundsException.class, () -> {
             testScenario(ToolCode.JAKR, "9/3/15", 5, 101);
         });
     }
 
     @Test
-    public void secondTestScenario()
-            throws DiscountOutOfBoundsException,
-            RentalDayOutOfBoundsException {
+    public void secondTestScenario() {
         assertDoesNotThrow(() -> {
             testScenario(ToolCode.LADW, "7/2/20", 3, 10);
         });

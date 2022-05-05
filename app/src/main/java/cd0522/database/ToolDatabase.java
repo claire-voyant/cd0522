@@ -1,16 +1,14 @@
 package cd0522.database;
 
-import java.util.Map;
 import java.util.Set;
 
 import cd0522.data.Tool;
 import cd0522.enums.*;
 
-public final class ToolDatabase extends Database<Tool> {
-    public ToolDatabase(Map<Integer, Tool> database) {
-        super(database);
-    }
-
+/**
+ * Stores the tool data using a simplified database.
+ */
+public final class ToolDatabase extends Database<ToolCode, Tool> {
     @Override
     public Set<Tool> getInitialValues() {
         return Set.of(

@@ -4,6 +4,7 @@ import java.time.LocalDate;
 
 import cd0522.app.Checkout;
 import cd0522.enums.ToolCode;
+import cd0522.util.DatabaseEntryNotFoundException;
 import cd0522.util.DiscountOutOfBoundsException;
 import cd0522.util.RentalDayOutOfBoundsException;
 
@@ -15,7 +16,8 @@ import static cd0522.util.ApplicationConstants.dateFormat;
 public class Main {
     public static void main(String args[])
             throws DiscountOutOfBoundsException,
-            RentalDayOutOfBoundsException {
+            RentalDayOutOfBoundsException,
+            DatabaseEntryNotFoundException {
         if (args.length != 4) {
             throw new IllegalArgumentException(
                     "Not enough arguments given! Requires 4: "
