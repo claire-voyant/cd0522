@@ -18,7 +18,7 @@ public class Main {
             RentalDayOutOfBoundsException, DatabaseEntryNotFoundException {
         if (args.length != 4) {
             throw new IllegalArgumentException("Not enough arguments given! Requires 4: "
-                    + "toolCode checkoutDate, rentalDayCount, discountPercent");
+                    + "toolCode checkoutDate rentalDayCount discountPercent");
         }
         ToolCode toolCode = determineToolCode(args[0]);
         LocalDate date = LocalDate.parse(args[1], dateFormat);
