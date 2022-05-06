@@ -39,9 +39,11 @@ public class Checkout {
         checkErrorCases();
         Tool tool = DataReference.TOOL_DATABASE.retrieveEntry(toolCode).get();
         RentalCharge rentCharge = DataReference.RENT_DATABASE.retrieveEntry(tool.toolType()).get();
-        int chargeDays = RentalCalculator.calculateChargeDays(checkoutDate, rentalDayCount,rentCharge);
+        int chargeDays = RentalCalculator.calculateChargeDays(checkoutDate, rentalDayCount,
+                rentCharge);
         double prediscountCharge = roundHalfUpToCents(chargeDays * rentCharge.dailyCharge());
-        double discountAmount = roundHalfUpToCents((discountPercent / 100.0) * prediscountCharge);
+        double discountAmount = roundHalfUpToCents(
+                (discountPercent / ApplicationConstants.discountPrecision) * prediscountCharge);
         double finalCharge = roundHalfUpToCents(prediscountCharge - discountAmount);
         return RentalAgreement.builder().toolCode(toolCode).toolType(tool.toolType())
                 .toolBrand(tool.brand()).rentalDays(rentalDayCount).checkoutDate(checkoutDate)
@@ -52,7 +54,8 @@ public class Checkout {
     }
 
     private double roundHalfUpToCents(double value) {
-        return Math.round(value * 100.0) / 100.0;
+        return Math.round(value * ApplicationConstants.roundPrecision)
+                / ApplicationConstants.roundPrecision;
     }
 
     private void checkErrorCases() throws DiscountOutOfBoundsException,

@@ -10,4 +10,6 @@ public class ApplicationConstants {
     public static final int discountLowerBound = 0;
     public static final int discountUpperBound = 100;
     public static final int rentalDayMinimum = 1;
+    public static final double roundPrecision = 100.0;
+    public static final double discountPrecision = 100.0;
 }
