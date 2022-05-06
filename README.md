@@ -5,11 +5,13 @@ This project uses `gradle` and includes the wrappers used depending on your envi
 **Unix**
 
 ```
+./gradlew assemble
 ./gradlew clean build check
 ```
 
 **Windows**
 ```
+.\gradlew.bat assemble
 .\gradlew.bat clean build check
 ```
 
