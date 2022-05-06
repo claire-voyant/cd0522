@@ -14,22 +14,18 @@ import static cd0522.util.ApplicationConstants.dateFormat;
  * Main file for testing purposes and demonstration.
  */
 public class Main {
-    public static void main(String args[])
-            throws DiscountOutOfBoundsException,
-            RentalDayOutOfBoundsException,
-            DatabaseEntryNotFoundException {
+    public static void main(String args[]) throws DiscountOutOfBoundsException,
+            RentalDayOutOfBoundsException, DatabaseEntryNotFoundException {
         if (args.length != 4) {
-            throw new IllegalArgumentException(
-                    "Not enough arguments given! Requires 4: "
-                            + "toolCode checkoutDate, rentalDayCount, discountPercent");
+            throw new IllegalArgumentException("Not enough arguments given! Requires 4: "
+                    + "toolCode checkoutDate, rentalDayCount, discountPercent");
         }
         ToolCode toolCode = determineToolCode(args[0]);
         LocalDate date = LocalDate.parse(args[1], dateFormat);
         int rentalDayCount = Integer.parseInt(args[2]);
         int discountPercent = Integer.parseInt(args[3]);
-        Checkout checkout = Checkout.builder().toolCode(toolCode)
-                .checkoutDate(date).rentalDayCount(rentalDayCount)
-                .discountPercent(discountPercent).build();
+        Checkout checkout = Checkout.builder().toolCode(toolCode).checkoutDate(date)
+                .rentalDayCount(rentalDayCount).discountPercent(discountPercent).build();
         System.out.println(checkout.generateRentalAgreement());
     }
 
@@ -43,8 +39,8 @@ public class Main {
         } else if (toolCodeString.equals("JAKR")) {
             return ToolCode.JAKR;
         } else {
-            throw new IllegalArgumentException(String.format(
-                    "Unsupported tool code %s!", toolCodeString));
+            throw new IllegalArgumentException(
+                    String.format("Unsupported tool code %s!", toolCodeString));
         }
     }
 }

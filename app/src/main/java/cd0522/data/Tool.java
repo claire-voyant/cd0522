@@ -9,8 +9,7 @@ import cd0522.enums.*;
  * @param toolType common word for the tool
  * @param brand    name of the brand
  */
-public record Tool(ToolCode toolCode, ToolType toolType,
-        ToolBrand brand) implements Indexable {
+public record Tool(ToolCode toolCode, ToolType toolType, ToolBrand brand) implements Indexable {
     public int getIndex() {
         return toolCode.getIndex();
     }

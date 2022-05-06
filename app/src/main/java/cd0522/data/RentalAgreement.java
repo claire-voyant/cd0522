@@ -28,18 +28,14 @@ public class RentalAgreement {
 
     @Override
     public String toString() {
-        return String.format("Tool code: %s\n" + "Tool type: %s\n"
-                + "Tool brand: %s\n" + "Rental days: %d\n"
-                + "Checkout date: %s\n" + "Due date: %s\n"
-                + "Daily rental charge: $%,.2f\n"
-                + "Charge days: %d\n" + "Prediscount charge: $%,.2f\n"
-                + "Discount percent: %d%%\n"
-                + "Discount amount: $%,.2f\n"
-                + "Final charge: $%,.2f", toolCode, toolType,
-                toolBrand, rentalDays,
-                checkoutDate.format(dateFormat),
-                dueDate.format(dateFormat), dailyRentalCharge,
-                chargeDays, prediscountCharge, discountPercent,
-                discountAmount, finalCharge);
+        return String.format(
+                "Tool code: %s\n" + "Tool type: %s\n" + "Tool brand: %s\n" + "Rental days: %d\n"
+                        + "Checkout date: %s\n" + "Due date: %s\n" + "Daily rental charge: $%,.2f\n"
+                        + "Charge days: %d\n" + "Prediscount charge: $%,.2f\n"
+                        + "Discount percent: %d%%\n" + "Discount amount: $%,.2f\n"
+                        + "Final charge: $%,.2f",
+                toolCode, toolType, toolBrand, rentalDays, checkoutDate.format(dateFormat),
+                dueDate.format(dateFormat), dailyRentalCharge, chargeDays, prediscountCharge,
+                discountPercent, discountAmount, finalCharge);
     }
 }

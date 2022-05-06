@@ -23,59 +23,40 @@ public class Checkout {
     private LocalDate checkoutDate;
 
     /**
-     * Generates the rental agreement given a toolcode, rental day
-     * count, discount percent, and checkout date.
+     * Generates the rental agreement given a toolcode, rental day count, discount percent, and
+     * checkout date.
      * <p>
-     * Validates various error conditions and displays a helpful
-     * message.
+     * Validates various error conditions and displays a helpful message.
      * </p>
      * 
      * @return a rental agreement with charges and days calculated
-     * @throws DatabaseEntryNotFoundException when an invalid database
-     *                                            key is passed in
-     * @throws RentalDayOutOfBoundsException  when rental days is less
-     *                                            than one
-     * @throws DiscountOutOfBoundsException   when discount percent is
-     *                                            not between 1 and
-     *                                            100
+     * @throws DatabaseEntryNotFoundException when an invalid database key is passed in
+     * @throws RentalDayOutOfBoundsException  when rental days is less than one
+     * @throws DiscountOutOfBoundsException   when discount percent is not between 1 and 100
      */
-    public RentalAgreement generateRentalAgreement()
-            throws DiscountOutOfBoundsException,
-            RentalDayOutOfBoundsException,
-            DatabaseEntryNotFoundException {
+    public RentalAgreement generateRentalAgreement() throws DiscountOutOfBoundsException,
+            RentalDayOutOfBoundsException, DatabaseEntryNotFoundException {
         checkErrorCases();
-        Tool tool = DataReference.TOOL_DATABASE
-                .retrieveEntry(toolCode).get();
-        RentalCharge rentCharge = DataReference.RENT_DATABASE
-                .retrieveEntry(tool.toolType()).get();
-        int chargeDays = RentalCalculator.calculateChargeDays(
-                checkoutDate, rentalDayCount, rentCharge);
-        double prediscountCharge = roundHalfUpToCents(chargeDays
-                * rentCharge.dailyCharge());
-        double discountAmount = roundHalfUpToCents(
-                (discountPercent / 100.0) * prediscountCharge);
-        double finalCharge = roundHalfUpToCents(
-                prediscountCharge - discountAmount);
-        return RentalAgreement.builder().toolCode(toolCode)
-                .toolType(tool.toolType()).toolBrand(tool.brand())
-                .rentalDays(rentalDayCount).checkoutDate(checkoutDate)
+        Tool tool = DataReference.TOOL_DATABASE.retrieveEntry(toolCode).get();
+        RentalCharge rentCharge = DataReference.RENT_DATABASE.retrieveEntry(tool.toolType()).get();
+        int chargeDays = RentalCalculator.calculateChargeDays(checkoutDate, rentalDayCount,rentCharge);
+        double prediscountCharge = roundHalfUpToCents(chargeDays * rentCharge.dailyCharge());
+        double discountAmount = roundHalfUpToCents((discountPercent / 100.0) * prediscountCharge);
+        double finalCharge = roundHalfUpToCents(prediscountCharge - discountAmount);
+        return RentalAgreement.builder().toolCode(toolCode).toolType(tool.toolType())
+                .toolBrand(tool.brand()).rentalDays(rentalDayCount).checkoutDate(checkoutDate)
                 .dueDate(checkoutDate.plusDays(rentalDayCount))
-                .dailyRentalCharge(rentCharge.dailyCharge())
-                .chargeDays(chargeDays)
-                .prediscountCharge(prediscountCharge)
-                .discountPercent(discountPercent)
-                .discountAmount(discountAmount)
-                .finalCharge(finalCharge).build();
+                .dailyRentalCharge(rentCharge.dailyCharge()).chargeDays(chargeDays)
+                .prediscountCharge(prediscountCharge).discountPercent(discountPercent)
+                .discountAmount(discountAmount).finalCharge(finalCharge).build();
     }
 
     private double roundHalfUpToCents(double value) {
         return Math.round(value * 100.0) / 100.0;
     }
 
-    private void checkErrorCases()
-            throws DiscountOutOfBoundsException,
-            RentalDayOutOfBoundsException,
-            DatabaseEntryNotFoundException {
+    private void checkErrorCases() throws DiscountOutOfBoundsException,
+            RentalDayOutOfBoundsException, DatabaseEntryNotFoundException {
         if (discountPercent < ApplicationConstants.discountLowerBound) {
             throw new DiscountOutOfBoundsException(
                     "Discount percentage is below the minimum allowed amount of 0 percent.\n"
@@ -91,20 +72,19 @@ public class Checkout {
                     "Rental day count is below the minimum allowed amount of 1 day.\n"
                             + "Please enter a rental day count greater than or equal to 1.");
         }
-        Optional<Tool> optionalTool = DataReference.TOOL_DATABASE
-                .retrieveEntry(toolCode);
+        Optional<Tool> optionalTool = DataReference.TOOL_DATABASE.retrieveEntry(toolCode);
         Optional<RentalCharge> optionalRentCharge = DataReference.RENT_DATABASE
                 .retrieveEntry(optionalTool.get().toolType());
         if (!optionalTool.isPresent()) {
-            throw new DatabaseEntryNotFoundException(String.format(
-                    "ToolDatabase does not have entry for %s.\n"
-                            + "Please enter a valid tool code.",
-                    toolCode));
+            throw new DatabaseEntryNotFoundException(
+                    String.format("ToolDatabase does not have entry for %s.\n"
+                            + "Please enter a valid tool code.", toolCode));
         } else if (!optionalRentCharge.isPresent()) {
-            throw new DatabaseEntryNotFoundException(String.format(
-                    "RentDatabase does not have entry for %s.\n"
-                            + "Please enter a valid tool type.",
-                    optionalTool.get().toolType()));
+            throw new DatabaseEntryNotFoundException(
+                    String.format(
+                            "RentDatabase does not have entry for %s.\n"
+                                    + "Please enter a valid tool type.",
+                            optionalTool.get().toolType()));
         }
     }
 }
