@@ -5,12 +5,12 @@ This project uses `gradle` and includes the wrappers used depending on your envi
 **Unix**
 
 ```
-./gradlew build test
+./gradlew clean build check
 ```
 
 **Windows**
 ```
-.\gradlew.bat build test
+.\gradlew.bat clean build check
 ```
 
 You can run the application alone with your own custom arguments.
