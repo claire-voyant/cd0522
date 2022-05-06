@@ -50,10 +50,10 @@ public class Checkout {
                 .retrieveEntry(tool.toolType()).get();
         int chargeDays = RentalCalculator.calculateChargeDays(
                 checkoutDate, rentalDayCount, rentCharge);
-        double prediscountCharge = chargeDays
-                * rentCharge.dailyCharge();
+        double prediscountCharge = roundHalfUpToCents(chargeDays
+                * rentCharge.dailyCharge());
         double discountAmount = roundHalfUpToCents(
-                (1.0 / discountPercent) * prediscountCharge);
+                (discountPercent / 100.0) * prediscountCharge);
         double finalCharge = roundHalfUpToCents(
                 prediscountCharge - discountAmount);
         return RentalAgreement.builder().toolCode(toolCode)
